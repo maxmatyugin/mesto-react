@@ -12,11 +12,17 @@ function App(props) {
     false
   );
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState("");
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
+    false
+  );
+  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: "",
+    link: "",
+  });
 
   function handleEditAvatarClick() {
-    setEditAvatarPopupOpen(true);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
@@ -27,15 +33,17 @@ function App(props) {
     setAddPlacePopupOpen(true);
   }
 
-  function handleImageClick(link) {
-    setSelectedCard(link);
+  function handleImageClick(caption, path) {
+    setSelectedCard({ name: caption, link: path });
+    setIsImagePopupOpen(true);
   }
 
   function closeAllPopups() {
-    setEditAvatarPopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
-    setSelectedCard("");
+    setIsImagePopupOpen(false);
+    setSelectedCard({ name: "", link: "" });
   }
 
   return (
@@ -51,25 +59,25 @@ function App(props) {
       <PopupWithForm
         title="Редактировать профиль"
         name="profile"
-        isOpen={isEditProfilePopupOpen ? "popup_opened" : ""}
+        isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       />
       <PopupWithForm
         title="Новое место"
         name="add_card"
-        isOpen={isAddPlacePopupOpen ? "popup_opened" : ""}
+        isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       />
       <PopupWithForm
         title="Обновить аватар"
         name="avatar"
-        isOpen={isEditAvatarPopupOpen ? "popup_opened" : ""}
+        isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       />
       <PopupWithForm title="Вы уверены?" name="rusure" />
       <ImagePopup
         card={selectedCard}
-        isOpen={selectedCard ? "popup_opened" : ""}
+        isOpen={isImagePopupOpen}
         onClose={closeAllPopups}
       />
     </div>

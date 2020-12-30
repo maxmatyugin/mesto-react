@@ -1,5 +1,5 @@
 import React from "react";
-import { api } from "../utils/Api.js";
+import { api } from "../utils/api.js";
 import Card from "./Card";
 
 function Main(props) {
@@ -7,11 +7,9 @@ function Main(props) {
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUseravatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
-  const userInfo = api.getUserInfo();
-  const initialCards = api.getInitialCards();
 
   React.useEffect(() => {
-    userInfo.then((data) => {
+    api.getUserInfo().then((data) => {
       setUserName(data.name);
       setUserDescription(data.about);
       setUseravatar(data.avatar);
@@ -19,7 +17,7 @@ function Main(props) {
   }, []);
 
   React.useEffect(() => {
-    initialCards.then((data) => {
+    api.getInitialCards().then((data) => {
       setCards(data);
     });
   }, []);
@@ -59,10 +57,8 @@ function Main(props) {
           {cards.map((data) => {
             return (
               <Card
-                link={data.link}
-                name={data.name}
-                key={data._id}
-                likes={data.likes}
+              card={data}
+              key={data._id}  
                 onCardClick={props.onCardClick}
               />
             );
