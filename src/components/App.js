@@ -61,19 +61,79 @@ function App(props) {
         name="profile"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      />
+      >
+        <input
+          type="text"
+          id="name-input"
+          className="popup__input-text popup__input-text_type_name"
+          name="popup__name"
+          required
+          minLength="2"
+          maxLength="40"
+          placeholder="Ваше имя"
+        />
+        <span className="popup__error" id="name-input-error"></span>
+        <input
+          type="text"
+          id="job-input"
+          className="popup__input-text popup__input-text_type_job"
+          name="popup__job"
+          required
+          minLength="2"
+          maxLength="200"
+          placeholder="Род деятельности"
+        />
+        <span className="popup__error" id="job-input-error"></span>
+      </PopupWithForm>
       <PopupWithForm
         title="Новое место"
         name="add_card"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-      />
+      >
+        <input
+          type="text"
+          id="name-input"
+          className="popup__input-text popup__input-text_type_name"
+          name="popup__name"
+          required
+          minLength="2"
+          maxLength="40"
+          placeholder="Название"
+        />
+        <span className="popup__error" id="name-input-error"></span>
+        <input
+          type="text"
+          id="job-input"
+          className="popup__input-text popup__input-text_type_job"
+          name="popup__job"
+          required
+          minLength="2"
+          maxLength="200"
+          placeholder="Ссылка на картинку"
+        />
+        <span className="popup__error" id="job-input-error"></span>
+      </PopupWithForm>
+
       <PopupWithForm
         title="Обновить аватар"
         name="avatar"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-      />
+      >
+        <input
+          type="text"
+          id="name-input"
+          className="popup__input-text popup__input-text_type_avatar"
+          name="popup__name"
+          required
+          minLength="2"
+          maxLength="40"
+          placeholder="Сылка на картинку"
+        />
+        <span className="popup__error" id="name-input-error"></span>
+      </PopupWithForm>
+
       <PopupWithForm title="Вы уверены?" name="rusure" />
       <ImagePopup
         card={selectedCard}
