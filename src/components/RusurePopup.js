@@ -1,10 +1,10 @@
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
-function RusurePopup(props) {
+function RusurePopup({ onDeleteCard, isOpen, onClose }) {
   function handleSubmit(e) {
     e.preventDefault();
-    props.onDeleteCard();
+    onDeleteCard();
   }
 
   return (
@@ -12,8 +12,8 @@ function RusurePopup(props) {
       title="Вы уверены?"
       name="rusure"
       buttonName="Удалить"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
     />
   );

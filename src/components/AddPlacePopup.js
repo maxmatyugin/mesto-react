@@ -1,7 +1,7 @@
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
 
-function AddPlacePopup(props){
+function AddPlacePopup({onAddPlace, isOpen, onClose}){
 
   const [name, setName] = React.useState('');
 const [link, setLink] = React.useState('');
@@ -14,7 +14,7 @@ function handleInputChange(e) {
 
   function handleSubmit(e) {
     e.preventDefault();
-  props.onAddPlace({name, link});
+  onAddPlace({name, link});
   
   } 
 
@@ -23,8 +23,8 @@ function handleInputChange(e) {
         title="Новое место"
         name="add_card"
         buttonName="Добавить"
-        isOpen={props.isOpen}
-        onClose={props.onClose}
+        isOpen={isOpen}
+        onClose={onClose}
         onSubmit={handleSubmit}
       >
         <input

@@ -12,7 +12,7 @@ import RusurePopup from "./RusurePopup";
 import { api } from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function App(props) {
+function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
     false
   );
@@ -26,35 +26,22 @@ function App(props) {
     name: "",
     link: "",
   });
-  const [deletedCard, setDeletedCard] = React.useState("");
+  const [deletedCard, setDeletedCard] = React.useState({});
 
   const [cards, setCards] = React.useState([]);
 
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const [currentUser, setCurrentUser] = React.useState({});
 
   React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([UserInfo, InitialCards]) => {
+        setCurrentUser(UserInfo);
+        setCards(InitialCards);
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
   }, []);
-
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
-
-
 
   function handleDeleteClick(card) {
     setIsRusurePopupOpen(true);
@@ -102,11 +89,13 @@ function App(props) {
   function handleUpdateAvatar({ avatar }) {
     api
       .setAvatar(avatar)
-      .then((data) => setCurrentUser(data))
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-    closeAllPopups();
   }
 
   function handleAddPlace({ name, link }) {
@@ -123,10 +112,15 @@ function App(props) {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
-      setCards(newCards);
-    });
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        setCards(newCards);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 
   function handleDeleteCard() {
