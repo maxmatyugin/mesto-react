@@ -6,9 +6,10 @@ function PopupWithForm(props) {
       }`}
     >
       <form
-        className="popup__container popup__container_type_profile"
+        className={`popup__container popup__container_type_${props.name}`}
         name="popup__form"
-        noValidate
+        
+        onSubmit={props.onSubmit}
       >
         <h2 className="popup__header">{props.title}</h2>
         {props.children}
@@ -18,7 +19,7 @@ function PopupWithForm(props) {
           className="popup__button"
           name="popup__submit-button"
         >
-          Сохранить
+          {props.buttonName}
         </button>
         <button
           type="reset"
